@@ -1,0 +1,12 @@
+steps:
+  - name: 'gcr.io/k8s-minikube/buildpack-cnt'
+    entrypoint: 'pack'
+    args:
+      - 'build'
+      - 'gcr.io/$PROJECT_ID/fooditem'
+      - '--builder'
+      - 'gcr.io/buildpacks/builder:v1'
+      - '--path'
+      - 'smart-fridge-backend'
+options:
+  logging: CLOUD_LOGGING_ONLY
