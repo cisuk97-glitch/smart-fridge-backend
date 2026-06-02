@@ -1,0 +1,6 @@
+Flask==3.0.2
+google-generativeai==0.4.1
+google-api-python-client==2.122.0
+google-auth-oauthlib==1.2.0
+google-cloud-firestore==2.15.0
+typing_extensions==4.10.0
