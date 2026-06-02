@@ -1,6 +1,6 @@
 steps:
-  - name: 'gcr.io/k8s-minikube/buildpack-cnt'
-    entrypoint: 'pack'
+  # 1단계: 빌드팩을 이용해 특정 하위 폴더(smart-fridge-backend)를 컨테이너로 빌드
+  - name: 'gcr.io/k8s-skaffold/pack'
     args:
       - 'build'
       - 'gcr.io/$PROJECT_ID/fooditem'
@@ -8,5 +8,18 @@ steps:
       - 'gcr.io/buildpacks/builder:v1'
       - '--path'
       - 'smart-fridge-backend'
+
+  # 2단계: 빌드된 이미지를 Cloud Run에 자동으로 배포
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'fooditem'
+      - '--image'
+      - 'gcr.io/$PROJECT_ID/fooditem'
+      - '--region'
+      - 'asia-northeast3' # 서울 리전 (만약 다른 리전이면 수정 가능)
+
 options:
   logging: CLOUD_LOGGING_ONLY
